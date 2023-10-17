@@ -1,0 +1,34 @@
+from itertools import permutations
+
+def is_valid(puzzle, solution):
+    for i, char in enumerate(puzzle):
+        if char.isalpha():
+            if solution[char] == '0' and i == 0:
+                return False
+        elif char.isalpha():
+            if solution[char] != solution[puzzle[i-1]]:
+                return False
+    return True
+
+def solve_cryptarithmetic(puzzle):
+    # Extract all unique letters from the puzzle
+    unique_letters = set(char for char in puzzle if char.isalpha())
+
+    # Generate all permutations of digits for the unique letters
+    for perm in permutations('0123456789', len(unique_letters)):
+        solution = dict(zip(unique_letters, perm))
+        if is_valid(puzzle, solution):
+            solved = puzzle.translate(str.maketrans(solution))
+            if eval(solved):
+                return solution
+    return None
+
+if __name__ == "__main__":
+    puzzle = "SEND + MORE = MONEY"
+    solution = solve_cryptarithmetic(puzzle)
+    if solution:
+        print("Solution found:")
+        for letter, digit in solution.items():
+            print(f"{letter}: {digit}")
+    else:
+        print("No solution found.")
