@@ -1,0 +1,30 @@
+class VacuumCleaner:
+    def __init__(self, position='A'):
+        self.position = position
+        self.cleaned = []
+
+    def move(self, direction):
+        if direction == 'left':
+            self.position = 'A'
+        elif direction == 'right':
+            self.position = 'B'
+
+    def clean(self):
+        self.cleaned.append(self.position)
+        print(f"Cleaned room {self.position}")
+
+    def run(self, actions):
+        for action in actions:
+            if action == 'clean':
+                self.clean()
+            elif action == 'left' or action == 'right':
+                self.move(action)
+            else:
+                print("Invalid action")
+
+if __name__ == '__main__':
+    vacuum = VacuumCleaner()
+    actions = ['clean', 'left', 'clean', 'right', 'clean']
+    vacuum.run(actions)
+
+    print(f"Rooms cleaned: {vacuum.cleaned}")
